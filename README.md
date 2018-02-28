@@ -1,6 +1,9 @@
 # Semantic Segmentation
-### Introduction
-In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
+### Goal
+The goal of this project is to train a fully convolutional Neural network based on VGG-16 classifier to perform semantic segmentation of road images. The ultimate goal is to correctly identify drivable road of an image from a dash cam. I use KITTI data set to train and test the neural network. 
+
+
+
 
 ### Setup
 ##### Frameworks and Packages
