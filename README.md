@@ -19,6 +19,7 @@ learning_rate: 0.0009
 epochs = 50
 batch_size = 10
 
+
 ### Results
 
 Throughout the run, the model decreased the loss gradually starting from 3.782 in the first batch of the 1st epoch to 0.026 in average for the last epoch.
