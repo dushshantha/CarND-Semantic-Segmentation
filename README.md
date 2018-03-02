@@ -45,6 +45,10 @@ The model was able to successfully classify the road areas from the rest in most
 ![alt text][image7]  
 ![alt text][image8]  
 
+
+### Run inferences on Video
+I created 2 helper functions inference_on_video() and inference_frame() to run the inferences on a Video file. In this case, I am reading each frame of the video and apply the inference and then reconstruct the output video using the modified frames.
+
 ### Setup
 ##### Frameworks and Packages
 Make sure you have the following is installed:
