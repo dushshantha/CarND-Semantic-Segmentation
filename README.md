@@ -2,8 +2,47 @@
 ### Goal
 The goal of this project is to train a fully convolutional Neural network based on VGG-16 classifier to perform semantic segmentation of road images. The ultimate goal is to correctly identify drivable road of an image from a dash cam. I use KITTI data set to train and test the neural network. 
 
+# Project Aproach 
 
+### Network Architecture
 
+Here, I use the pre-trained VGG-16 image classifier and converting it to a fully convolutional network by adding 1x1 convolutions, skip connections and upsampling to the VGG layers 3, 4 and 7. I also set the number of classes to 2 representin g Road and Non-Road areas of the image. To improve the performance, I used skip connections, performing 1x1 convolutions on previous VGG layers 3 and 4 and adding them element-wise to upsampled lower-level layers through transposed convolution. Each convolution and transpose convolution layer includes a kernel initializer and regularizer 
+
+### Loss Function and Optimization
+
+I use a Cross entropy softmax loss function with an Adam optimizer.
+
+### Hyperparameters
+
+keep_prob: 0.5
+learning_rate: 0.0009
+epochs = 50
+batch_size = 10
+
+### Results
+
+Throughout the run, the model decreased the loss gradually starting from 3.782 in the first batch of the 1st epoch to 0.026 in average for the last epoch.
+The model was able to successfully classify the road areas from the rest in most of the cases althought there is a lot of room to improve. Below are few sample images.
+
+[//]: # (Image References)
+
+[image1]: ./Samples/1.png "1"
+[image2]: ./Samples/2.png "2"
+[image3]: ./Samples/3.png "3"
+[image4]: ./Samples/4.png "4"
+[image5]: ./Samples/5.png "5"
+[image6]: ./Samples/6.png "6"
+[image7]: ./Samples/7.png "7"
+[image8]: ./Samples/8.png "8"
+
+![alt text][image1]  
+![alt text][image2]  
+![alt text][image3]  
+![alt text][image4]  
+![alt text][image5]  
+![alt text][image6]  
+![alt text][image7]  
+![alt text][image8]  
 
 ### Setup
 ##### Frameworks and Packages
