@@ -10,6 +10,7 @@ import tensorflow as tf
 from glob import glob
 from urllib.request import urlretrieve
 from tqdm import tqdm
+import cv2
 
 
 class DLProgress(tqdm):
@@ -138,3 +139,37 @@ def save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_p
         sess, logits, keep_prob, input_image, os.path.join(data_dir, 'data_road/testing'), image_shape)
     for name, image in image_outputs:
         scipy.misc.imsave(os.path.join(output_dir, name), image)
+
+#This function will run inferences on each frame of the video. 
+def inference_frame(sess, logits, keep_prob, image_pl, image_shape, frame):
+    image = scipy.misc.imresize(image_file, image_shape)
+
+    im_softmax = sess.run(
+        [tf.nn.softmax(logits)],
+        {keep_prob: 1.0, image_pl: [image]})
+    im_softmax = im_softmax[0][:, 1].reshape(image_shape[0], image_shape[1])
+    segmentation = (im_softmax > 0.5).reshape(image_shape[0], image_shape[1], 1)
+    mask = np.dot(segmentation, np.array([[0, 255, 0, 127]]))
+    mask = scipy.misc.toimage(mask, mode="RGBA")
+    movie_clip = scipy.misc.toimage(image)
+    movie_clip.paste(mask, box=None, mask=mask)
+    
+    return movie_clip  
+
+# this function is called to run the inference on a video file
+def inference_on_video(video_file, sess, logits, keep_prob, image_shape, input_image):
+    output = 'output.mp4'
+    cap = cv2.VideoCapture(video_file)
+    # Define the codec and create VideoWriter object
+    orig_image_shape = (780, 1280)
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter(output, fourcc, 20.0, orig_image_shape)
+
+    while(cap.isOpened()):
+        ret, frame = cap.read()
+        out_frame  = inference_frame(sess, logits, keep_prob, input_image, image_shape, frame)
+
+        out.write(frame)
+
+    cap.release()
+    out.release()

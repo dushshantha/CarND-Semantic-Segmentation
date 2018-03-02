@@ -181,8 +181,8 @@ def run():
 
         # TODO: Build NN using load_vgg, layers, and optimize function
 
-        epochs = 20
-        batch_size = 5
+        epochs = 50
+        batch_size = 10
 
         # TF placeholders
         correct_label = tf.placeholder(tf.int32, [None, None, None, num_classes], name='correct_label')
@@ -202,6 +202,8 @@ def run():
         helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, input_image)
 
         # OPTIONAL: Apply the trained model to a video
+        # Uncomment the below line for Video processing.
+        helper.inference_on_video("challenge_video.mp4", sess, logits, keep_prob, image_shape, input_image)
 
 
 if __name__ == '__main__':
